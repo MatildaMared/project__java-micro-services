@@ -1,21 +1,18 @@
 version: '3.7'
+
 services:
-  postgres-order:
-    container_name: postgres-order
+  db:
+    container_name: order-service
     image: postgres
     environment:
-      POSTGRES_DB: order-service
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: matildamared
+      POSTGRES_PASSWORD: matildamared
       PGDATA: /data/postgres
     volumes:
-      - ./postgres-order:/data/postgres
-    expose:
-      - "5431"
+      - db:/data/postgres
     ports:
-      - "5431:5431"
-    command: -p 5431
-    restart: always
+      - "5432:5432"
+    restart: unless-stopped
 
   mongo:
     container_name: mongo
@@ -27,3 +24,10 @@ services:
       - "27017"
     volumes:
       - ./mongo-data:/data/db
+
+networks:
+  db:
+    driver: bridge
+
+volumes:
+  db:
