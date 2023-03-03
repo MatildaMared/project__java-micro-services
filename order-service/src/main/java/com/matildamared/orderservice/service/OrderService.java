@@ -21,9 +21,9 @@ public class OrderService {
         Order order = new Order();
         order.setOrderNumber(UUID.randomUUID().toString());
 
-        List<OrderLineItems> orderLineItems = orderRequest.getOrderLineItemsDtoList()
+        List<OrderLineItems> orderLineItems = orderRequest.getOrderLineItems()
                 .stream()
-                .map(this::mapToDto)
+                .map(this::mapToOrderLineItem)
                 .toList();
 
         order.setOrderLineItemsList(orderLineItems);
@@ -31,7 +31,7 @@ public class OrderService {
         orderRepository.save(order);
     }
 
-    private OrderLineItems mapToDto(OrderLineItemDto orderLineItemDto) {
+    private OrderLineItems mapToOrderLineItem(OrderLineItemDto orderLineItemDto) {
         OrderLineItems orderLineItems = new OrderLineItems();
         orderLineItems.setSkuCode(orderLineItemDto.getSkuCode());
         orderLineItems.setPrice(orderLineItemDto.getPrice());
